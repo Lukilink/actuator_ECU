@@ -9,8 +9,8 @@ This sketach can be used to control a cruise control servo actuator over CAN.
 int PERM_ERROR = 8; //will allow a diffrence between targetPressure and currentPressure
 int minPot = 86; //measured at actuators lowest position
 int maxPot = 920; //measured at actuators highest position
-float maxACC_CMD = 1430; //the max Value which comes from OP on CAN ID 0x200
-float minACC_CMD = 477; //the min Value which comes from OP on CAN ID 0x200
+float maxACC_CMD = 1500; //the max Value which comes from OP on CAN ID 0x200
+float minACC_CMD = 475; //the min Value which comes from OP on CAN ID 0x200
 
 //________________define_pins
 int cancel_pin = 3; //pulled to GND when pedal pressed
