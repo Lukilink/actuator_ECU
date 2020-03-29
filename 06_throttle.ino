@@ -6,7 +6,7 @@ This sketach can be used to control a cruise control servo actuator over CAN.
 #include <CAN.h>
 
 //________________this values needs to be define for each car
-int PERM_ERROR = 8; //will allow a diffrence between targetPressure and currentPressure
+int PERM_ERROR = 8; //will allow a diffrence between targetposition and currentPosition
 int minPot = 86; //measured at actuators lowest position
 int maxPot = 920; //measured at actuators highest position
 float maxACC_CMD = 1500; //the max Value which comes from OP on CAN ID 0x200
