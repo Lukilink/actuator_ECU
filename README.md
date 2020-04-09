@@ -1,4 +1,6 @@
-# actuator_ECU
+# DO NOT USE ON PUBLIC ROAD!
+!!!!This is unsafe and only for testing on Workbench, not in a car!!!!
+
 Arduino sketch to control cruise control actuators over can for throttle or breaking.
 
 Hardware I am using:
