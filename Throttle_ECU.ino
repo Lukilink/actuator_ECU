@@ -129,35 +129,20 @@ else {
 Serial.println(GAS_RELEASED);
     
 //______________SENDING_CAN_MESSAGES
-  //0x1d2 msg PCM_CRUISE
-  uint8_t dat[8];
-  dat[0] = (GAS_RELEASED << 4) & 0x10;
-  dat[1] = 0x0;
-  dat[2] = 0x0;
-  dat[3] = 0x0;
-  dat[4] = 0x0;
-  dat[5] = 0x0;
-  dat[6] = 0x0;
-  dat[7] = can_cksum(dat, 7, 0x1d2);
-  CAN.beginPacket(0x1d2);
-  for (int ii = 0; ii < 8; ii++) {
-    CAN.write(dat[ii]);
-  }
-  CAN.endPacket();
- 
+
   // 0x2c1 msg GAS_PEDAL
-  uint8_t dat10[8];
-  dat10[0] = (GAS_RELEASED << 3) & 0x08;
-  dat10[1] = 0x0;
-  dat10[2] = 0x0;
-  dat10[3] = 0x0;
-  dat10[4] = 0x0;
-  dat10[5] = 0x0;
-  dat10[6] = 0x0;
-  dat10[7] = 0x0;
+  uint8_t dat_2c1[8];
+  dat_2c1[0] = (GAS_RELEASED << 3) & 0x08;
+  dat_2c1[1] = 0x0;
+  dat_2c1[2] = 0x0;
+  dat_2c1[3] = 0x0;
+  dat_2c1[4] = 0x0;
+  dat_2c1[5] = 0x0;
+  dat_2c1[6] = 0x0;
+  dat_2c1[7] = 0x0;
   CAN.beginPacket(0x2c1);
   for (int ii = 0; ii < 8; ii++) {
-    CAN.write(dat10[ii]);
+    CAN.write(dat_2c1[ii]);
   }
   CAN.endPacket();
      
