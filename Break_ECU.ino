@@ -145,23 +145,25 @@ if (currentPressure >= (targetPressure + 20)
 else {
         BRAKE_PRESSED = false;
      }
-Serial.println(BRAKE_PRESSED);
+Serial.print("BRAKE_PRESSED = ");
+Serial.print(BRAKE_PRESSED);
+Serial.println("");
     
 //________________send_OND_CAN-BUS
     
   //0x224 msg BRAKE_MODULE
-  uint8_t dat224[8];
-  dat224[0] = (BRAKE_PRESSED << 5) & 0x20;
-  dat224[1] = 0x0;
-  dat224[2] = 0x0;
-  dat224[3] = 0x0;
-  dat224[4] = 0x0;
-  dat224[5] = 0x0;
-  dat224[6] = 0x0;
-  dat224[7] = 0x8;
+  uint8_t dat_224[8];
+  dat_224[0] = (BRAKE_PRESSED << 5) & 0x20;
+  dat_224[1] = 0x0;
+  dat_224[2] = 0x0;
+  dat_224[3] = 0x0;
+  dat_224[4] = 0x0;
+  dat_224[5] = 0x0;
+  dat_224[6] = 0x0;
+  dat_224[7] = 0x8;
   CAN.beginPacket(0x224);
   for (int ii = 0; ii < 8; ii++) {
-    CAN.write(dat224[ii]);
+    CAN.write(dat_224[ii]);
   }
   CAN.endPacket();    
     
