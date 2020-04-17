@@ -28,10 +28,11 @@ float ACC_CMD_PERCENT = 0;
 float ACC_CMD = 0;
 float ACC_CMD1 = 0;
 boolean cancel = false;
+boolean GAS_RELEASED = false;
 
 void setup() {
 //________________begin Monitor - only use it for debugging
-//Serial.begin(115200);
+Serial.begin(115200);
 
 //________________begin CAN
 CAN.begin(500E3);
@@ -114,7 +115,51 @@ if (abs(potiPosition - targetPosition) >= PERM_ERROR)
 //________________if we match target position, just stay here
 else {
      analogWrite(M_PWM, 0);   //stop Motor
-     }  
+     }
+ 
+//________________logic if gas is pressed by user
+ 
+if (potiPosition >= (targetPosition + 10)
+    {
+     GAS_RELEASED = false;
+    }
+else {
+     GAS_RELEASED = true;
+     }
+Serial.println(GAS_RELEASED);
+    
+//______________SENDING_CAN_MESSAGES
+  //0x1d2 msg PCM_CRUISE
+  uint8_t dat[8];
+  dat[0] = (GAS_RELEASED << 4) & 0x10;
+  dat[1] = 0x0;
+  dat[2] = 0x0;
+  dat[3] = 0x0;
+  dat[4] = 0x0;
+  dat[5] = 0x0;
+  dat[6] = 0x0;
+  dat[7] = can_cksum(dat, 7, 0x1d2);
+  CAN.beginPacket(0x1d2);
+  for (int ii = 0; ii < 8; ii++) {
+    CAN.write(dat[ii]);
+  }
+  CAN.endPacket();
+ 
+  // 0x2c1 msg GAS_PEDAL
+  uint8_t dat10[8];
+  dat10[0] = (GAS_RELEASED << 3) & 0x08;
+  dat10[1] = 0x0;
+  dat10[2] = 0x0;
+  dat10[3] = 0x0;
+  dat10[4] = 0x0;
+  dat10[5] = 0x0;
+  dat10[6] = 0x0;
+  dat10[7] = 0x0;
+  CAN.beginPacket(0x2c1);
+  for (int ii = 0; ii < 8; ii++) {
+    CAN.write(dat10[ii]);
+  }
+  CAN.endPacket();
      
 //________________print stuff if you want to DEBUG
 /*
