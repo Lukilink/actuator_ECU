@@ -21,7 +21,7 @@ float minACC_CMD = 0; //the min Value which comes from OP
 //________________define_pins
 int cancel_pin = 3;
 int pressurePin = A2;
-int breaklightPin = A5;
+int brakelightPin = A5;
 
 int M_DIR = 8; // LOW is Left / HIGH is Right
 int M_PWM = 9; // 255 is run / LOW is stopp
@@ -53,7 +53,7 @@ pinMode(M_DIR, OUTPUT);
 pinMode(M_PWM, OUTPUT);
 pinMode(S_DIR, OUTPUT);
 pinMode(S_PWM, OUTPUT);
-pinMode(breaklightPin, OUTPUT);
+pinMode(brakelightPin, OUTPUT);
 digitalWrite(S_DIR, HIGH);
 
 }
@@ -65,14 +65,14 @@ cancel = true; //(digitalRead(cancel_pin));
 //________________read pressure sensor
 currentPressure = (analogRead(pressurePin));
 
-//________________light up break lights
+//________________light up brake lights
 if (currentPressure >= 75)
   {
-   analogWrite(breaklightPin, 255);
+   analogWrite(brakelightPin, 255);
   }
 else 
   {
-   analogWrite(breaklightPin, 0);
+   analogWrite(brakelightPin, 0);
   }
 Serial.println(currentPressure);
 
