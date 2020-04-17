@@ -6,7 +6,6 @@ This sketach can be used to control a cruise control servo actuator over CAN.
 //________________import can libary https://github.com/sandeepmistry/arduino-CAN
 #include <CAN.h>
 
-
 //________________this values needs to be define for each car
 int PERM_ERROR = 4; // will allow a diffrence between targetPressure and currentPressure
 int minPot = 1; //measured at actuators lowest position
@@ -15,8 +14,6 @@ int maxPressure = 430; // the max pressure your actuator is able to aply
 int minPressure = 75; //the pressure in stand still
 float maxACC_CMD = 500; //the max Value which comes from OP
 float minACC_CMD = 0; //the min Value which comes from OP
-
-
 
 //________________define_pins
 int cancel_pin = 3;
@@ -36,6 +33,7 @@ float ACC_CMD_PERCENT = 0;
 float ACC_CMD = 0;
 float ACC_CMD1 = 0;
 boolean cancel = false;
+boolean BRAKE_PRESSED = true;
 
 
 void setup() {
@@ -137,6 +135,36 @@ else {
      analogWrite(M_PWM, 0);   //stop Motor
      }  
 
+//________________logic to read if brake is pressed by human
+    
+if (currentPressure >= (targetPressure + 20)
+    {
+        BRAKE_PRESSED = true;
+    }
+    
+else {
+        BRAKE_PRESSED = false;
+     }
+Serial.println(BRAKE_PRESSED);
+    
+//________________send_OND_CAN-BUS
+    
+  //0x224 msg BRAKE_MODULE
+  uint8_t dat224[8];
+  dat224[0] = (BRAKE_PRESSED << 5) & 0x20;
+  dat224[1] = 0x0;
+  dat224[2] = 0x0;
+  dat224[3] = 0x0;
+  dat224[4] = 0x0;
+  dat224[5] = 0x0;
+  dat224[6] = 0x0;
+  dat224[7] = 0x8;
+  CAN.beginPacket(0x224);
+  for (int ii = 0; ii < 8; ii++) {
+    CAN.write(dat224[ii]);
+  }
+  CAN.endPacket();    
+    
 //________________print stuff if you want to DEBUG
 
 //Serial.print("ACC_CMD_");
